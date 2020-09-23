@@ -4,11 +4,17 @@
     "description": "Doctrine ODM factory for PSR-11 container",
     "license": "MIT",
     "require": {
-        "php": "^7.4"
+        "php": "^7.4",
+        "doctrine/mongodb-odm": "^2.0",
+        "mongodb/mongodb": "^1.6",
+        "psr/container": "^1.0",
+        "roave/psr-container-doctrine": "^2.2",
+        "thecodingmachine/safe": "^1.2"
     },
     "require-dev": {
         "eventjet/coding-standard": "^3.1",
         "infection/infection": "^0.17.0",
+        "laminas/laminas-servicemanager": "^3.4",
         "maglnet/composer-require-checker": "^2.1",
         "phpstan/extension-installer": "^1.0",
         "phpstan/phpstan": "^0.12.32",
@@ -28,8 +34,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Eventjet\\Test\\Functional\\PsrContainerDoctrineOdm\\": "tests/functional",
-            "Eventjet\\Test\\Unit\\PsrContainerDoctrineOdm\\": "tests/unit"
+            "Eventjet\\Test\\Functional\\PsrContainerDoctrineOdm\\": "tests/functional"
         }
     },
     "minimum-stability": "stable",
