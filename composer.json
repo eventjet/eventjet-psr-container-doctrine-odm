@@ -13,7 +13,7 @@
     },
     "require-dev": {
         "eventjet/coding-standard": "^3.1",
-        "infection/infection": "^0.17.0",
+        "infection/infection": "^0.20.0",
         "laminas/laminas-servicemanager": "^3.4",
         "maglnet/composer-require-checker": "^2.1",
         "phpstan/extension-installer": "^1.0",
@@ -21,8 +21,9 @@
         "phpstan/phpstan-phpunit": "^0.12.11",
         "phpstan/phpstan-strict-rules": "^0.12.2",
         "phpunit/phpunit": "^9.3",
+        "psalm/plugin-phpunit": "^0.13.0",
         "thecodingmachine/phpstan-safe-rule": "^1.0",
-        "vimeo/psalm": "^3.11"
+        "vimeo/psalm": "^4.0"
     },
     "config": {
         "sort-packages": true
@@ -42,8 +43,8 @@
         "check": [
             "@check-deps",
             "@cs-check",
-            "@psalm",
             "@phpstan",
+            "@psalm",
             "@phpunit",
             "@infection"
         ],

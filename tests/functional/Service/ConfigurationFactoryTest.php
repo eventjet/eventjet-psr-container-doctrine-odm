@@ -16,6 +16,8 @@ use Eventjet\Test\Functional\PsrContainerDoctrineOdm\TestDouble\DummyRepositoryF
 use Eventjet\Test\Functional\PsrContainerDoctrineOdm\TestDouble\DummyType;
 use PHPUnit\Framework\TestCase;
 
+use function sys_get_temp_dir;
+
 class ConfigurationFactoryTest extends TestCase
 {
     use CreateContainerTrait;
@@ -32,7 +34,7 @@ class ConfigurationFactoryTest extends TestCase
         $options = [
             'metadata_cache' => 'filesystem',
             'generate_proxies' => Configuration::AUTOGENERATE_EVAL,
-            'proxy_dir' => '3',
+            'proxy_dir' => sys_get_temp_dir() . '/proxy-odm-dir-test',
             'proxy_namespace' => '4',
             'generate_hydrators' => Configuration::AUTOGENERATE_NEVER,
             'hydrator_dir' => '6',
