@@ -12,7 +12,7 @@ go ahead :)
 
 ### Added
 
-- adds all factories to create a DocumentManager
+- [#1](https://github.com/eventjet/eventjet-psr-container-doctrine-odm/pull/1) adds all factories to create a DocumentManager
 
 ### Changed
 
