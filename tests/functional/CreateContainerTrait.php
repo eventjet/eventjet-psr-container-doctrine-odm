@@ -70,7 +70,7 @@ trait CreateContainerTrait
     /**
      * @param array<string, mixed> $config
      */
-    protected function replaceConfig(array $config, ?string $section = null): void
+    protected function replaceConfig(array $config, string $section): void
     {
         $serviceConfig = $this->container()->get('config');
         $serviceConfig = \Safe\array_replace_recursive(
@@ -81,14 +81,6 @@ trait CreateContainerTrait
         $this->container()->setService('config', $serviceConfig);
         $this->container()->setAllowOverride(false);
     }
-
-//    /**
-//     * @param array<string, mixed> $config
-//     */
-//    protected function addServiceConfig(array $config): void
-//    {
-//        $this->additionalServiceConfig = array_merge_recursive($this->additionalServiceConfig, $config);
-//    }
 
     abstract protected function configSection(): string;
 }

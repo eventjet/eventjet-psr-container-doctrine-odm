@@ -6,13 +6,11 @@ namespace Eventjet\Test\Functional\PsrContainerDoctrineOdm\TestDouble;
 
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Doctrine\ODM\MongoDB\Repository\RepositoryFactory;
-use Doctrine\Persistence\ObjectRepository;
-use LogicException;
 
 final class DummyRepositoryFactory implements RepositoryFactory
 {
-    public function getRepository(DocumentManager $documentManager, string $documentName): ObjectRepository
+    public function getRepository(DocumentManager $documentManager, string $documentName): DummyRepository
     {
-        throw new LogicException('not implemented');
+        return new DummyRepository();
     }
 }

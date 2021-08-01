@@ -9,6 +9,7 @@ use LogicException;
 
 /**
  * // @phpcsSuppress
+ * @implements ObjectRepository<DummyRepository>
  */
 final class DummyRepository implements ObjectRepository
 {

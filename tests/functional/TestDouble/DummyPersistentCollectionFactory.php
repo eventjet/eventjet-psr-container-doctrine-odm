@@ -13,7 +13,7 @@ use LogicException;
 final class DummyPersistentCollectionFactory implements PersistentCollectionFactory
 {
     /**
-     * @param mixed[] $mapping
+     * @param array<mixed> $mapping
      * @phpstan-ignore-next-line
      */
     public function create(

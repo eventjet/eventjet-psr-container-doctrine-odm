@@ -51,6 +51,7 @@ class ConfigurationFactoryTest extends TestCase
 
         $config = $this->container()->get(Configuration::class);
 
+        /** @psalm-suppress DeprecatedClass */
         self::assertInstanceOf(FilesystemCache::class, $config->getMetadataCacheImpl());
         self::assertSame($options['generate_proxies'], $config->getAutoGenerateProxyClasses());
         self::assertSame($options['proxy_dir'], $config->getProxyDir());

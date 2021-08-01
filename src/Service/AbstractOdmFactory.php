@@ -15,12 +15,15 @@ declare(strict_types=1);
 
 namespace Eventjet\PsrContainerDoctrineOdm\Service;
 
+use Psr\Container\ContainerInterface;
 use Roave\PsrContainerDoctrine\AbstractFactory;
 
 abstract class AbstractOdmFactory extends AbstractFactory
 {
-    public function __construct(string $configKey = 'odm_default')
+    private string $configKey = 'odm_default';
+
+    public function __invoke(ContainerInterface $container): object
     {
-        parent::__construct($configKey);
+        return $this->createWithConfig($container, $this->configKey);
     }
 }

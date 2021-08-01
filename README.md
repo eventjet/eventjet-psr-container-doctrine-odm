@@ -12,7 +12,8 @@ $ composer require eventjet/psr-container-doctrine-odm
 
 ## Configuration
 
-The most basic was is just defining the factory for the `DocumentManager`. Everything else is taken form the config.
+The most basic way is just defining the factory for the `DocumentManager`. Everything else is taken from the
+configuration.
 
 ```php
 return [
