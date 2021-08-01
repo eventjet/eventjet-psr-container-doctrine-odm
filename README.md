@@ -24,3 +24,12 @@ return [
     ],
 ];
 ```
+
+### Example Configuration
+
+A full example of the configuration can be found in the [examples](example/full-config.php) folder.
+
+The configuration style is heavily based
+on [`roave/psr-container-doctrine`](https://github.com/Roave/psr-container-doctrine/blob/3.1.x/example/full-config.php)
+to retain the familiarity. Also, the configuration _should_ be compatible with the
+['DoctrineMongoODMModule for Laminas](https://github.com/doctrine/DoctrineMongoODMModule).

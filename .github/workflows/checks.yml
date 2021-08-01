@@ -35,9 +35,16 @@ jobs:
         run: |
           composer update --no-progress --no-interaction ${{ matrix.composer_args }} > /dev/null
 
-      - name: Static analysis
+      #      composer-require-checker on PHP8 trips on
+      #      doctrine/mongodb-odm/lib/Doctrine/ODM/MongoDB/Aggregation/Stage/GraphLookup/Match.php
+      #      (https://github.com/doctrine/mongodb-odm/issues/2222)
+      - name: Check Dependencies
+        if: matrix.php != '8.0'
         run: |
           composer check-deps
+
+      - name: Static analysis
+        run: |
           composer cs-check
           composer phpstan -- --no-progress
           composer psalm

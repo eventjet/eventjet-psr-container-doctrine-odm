@@ -3,6 +3,7 @@
     <rule ref="EventjetStrict">
         <exclude-pattern>tests/functional/TestDouble/DummyRepository.php</exclude-pattern>
     </rule>
+    <file>example</file>
     <file>src</file>
     <file>tests</file>
 </ruleset>
