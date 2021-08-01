@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file, in reverse 
 
 File automatically generated with [phly/keep-a-changelog](https://github.com/phly/keep-a-changelog)
 
-## 0.1.0 - TBD
+## 0.1.0 - 2021-08-01
 
 This first release is actually considered stable, but it uses common factories from `roave/psr-container-doctrine`
 which requires `doctrine/orm`. If you use Doctrine ORM anyway or if you don't mind having an unnecessary dependency,
