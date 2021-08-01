@@ -7,9 +7,6 @@
     verbose="true"
 >
     <testsuites>
-        <testsuite name="Eventjet\PsrContainerDoctrineOdm\Unit">
-            <directory>tests/unit</directory>
-        </testsuite>
         <testsuite name="Eventjet\PsrContainerDoctrineOdm\Functional">
             <directory>tests/functional</directory>
         </testsuite>
