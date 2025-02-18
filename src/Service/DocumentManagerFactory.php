@@ -26,7 +26,7 @@ class DocumentManagerFactory extends AbstractOdmFactory
     /**
      * {@inheritdoc}
      */
-    protected function createWithConfig(ContainerInterface $container, string $configKey)
+    protected function createWithConfig(ContainerInterface $container, string $configKey): DocumentManager
     {
         $options = $this->retrieveConfig($container, $configKey, 'documentmanager');
 
@@ -34,19 +34,19 @@ class DocumentManagerFactory extends AbstractOdmFactory
             $container,
             $options['connection'],
             'connection',
-            ConnectionFactory::class
+            ConnectionFactory::class,
         );
         $configuration = $this->retrieveDependency(
             $container,
             $options['configuration'],
             'configuration',
-            ConfigurationFactory::class
+            ConfigurationFactory::class,
         );
         $eventManager = $this->retrieveDependency(
             $container,
             $options['event_manager'],
             'event_manager',
-            EventManagerFactory::class
+            EventManagerFactory::class,
         );
 
         return DocumentManager::create($connection, $configuration, $eventManager);

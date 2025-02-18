@@ -17,14 +17,17 @@ use Laminas\ServiceManager\ServiceManager;
 use MongoDB\Client;
 
 use function array_merge_recursive;
+use function array_replace_recursive;
 
 trait CreateContainerTrait
 {
-    private ?ServiceManager $container = null;
+    private ServiceManager|null $container = null;
     /** @var array<string, mixed> */
     private array $additionalConfig = [];
     /** @var array<string, mixed> */
     private array $additionalServiceConfig = [];
+
+    abstract protected function configSection(): string;
 
     protected function container(): ServiceManager
     {
@@ -48,7 +51,7 @@ trait CreateContainerTrait
                     'config' => $config,
                 ],
             ],
-            $this->additionalServiceConfig
+            $this->additionalServiceConfig,
         );
         $serviceManager = new ServiceManager($serviceConfig);
         $this->container = $serviceManager;
@@ -58,12 +61,12 @@ trait CreateContainerTrait
     /**
      * @param array<string, mixed> $config
      */
-    protected function addConfig(array $config, ?string $section = null): void
+    protected function addConfig(array $config, string|null $section = null): void
     {
         $section = $section ?? $this->configSection();
         $this->additionalConfig = array_merge_recursive(
             $this->additionalConfig,
-            ['doctrine' => [$section => ['odm_default' => $config]]]
+            ['doctrine' => [$section => ['odm_default' => $config]]],
         );
     }
 
@@ -73,14 +76,12 @@ trait CreateContainerTrait
     protected function replaceConfig(array $config, string $section): void
     {
         $serviceConfig = $this->container()->get('config');
-        $serviceConfig = \Safe\array_replace_recursive(
+        $serviceConfig = array_replace_recursive(
             $serviceConfig,
-            ['doctrine' => [$section => ['odm_default' => $config]]]
+            ['doctrine' => [$section => ['odm_default' => $config]]],
         );
         $this->container()->setAllowOverride(true);
         $this->container()->setService('config', $serviceConfig);
         $this->container()->setAllowOverride(false);
     }
-
-    abstract protected function configSection(): string;
 }

@@ -1,33 +1,30 @@
 {
     "name": "eventjet/psr-container-doctrine-odm",
-    "type": "library",
     "description": "Doctrine ODM factory for PSR-11 container",
     "license": "MIT",
+    "type": "library",
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^8.3",
         "doctrine/mongodb-odm": "^2.0",
         "mongodb/mongodb": "^1.6",
         "psr/container": "^1.1 || ^2.0",
-        "roave/psr-container-doctrine": "^3.0",
-        "thecodingmachine/safe": "^1.2"
+        "roave/psr-container-doctrine": "^5.0"
     },
     "require-dev": {
+        "bnf/phpstan-psr-container": "^1.1",
         "eventjet/coding-standard": "^3.1",
-        "infection/infection": "^0.24.0",
-        "laminas/laminas-servicemanager": "^3.4",
-        "maglnet/composer-require-checker": "^3.3",
+        "infection/infection": "^0.29.0",
+        "laminas/laminas-servicemanager": "^3.0",
+        "maglnet/composer-require-checker": "^4.0",
         "phpstan/extension-installer": "^1.0",
-        "phpstan/phpstan": "^0.12.32",
-        "phpstan/phpstan-phpunit": "^0.12.11",
-        "phpstan/phpstan-strict-rules": "^0.12.2",
-        "phpunit/phpunit": "^9.3",
-        "psalm/plugin-phpunit": "^0.16.1",
-        "thecodingmachine/phpstan-safe-rule": "^1.0",
-        "vimeo/psalm": "^4.0"
+        "phpstan/phpstan": "^2.0",
+        "phpstan/phpstan-phpunit": "^2.0",
+        "phpstan/phpstan-strict-rules": "^2.0",
+        "phpunit/phpunit": "^12.0",
+        "psalm/plugin-phpunit": "^0.19",
+        "vimeo/psalm": "^6.0"
     },
-    "config": {
-        "sort-packages": true
-    },
+    "minimum-stability": "stable",
     "autoload": {
         "psr-4": {
             "Eventjet\\PsrContainerDoctrineOdm\\": "src"
@@ -38,7 +35,14 @@
             "Eventjet\\Test\\Functional\\PsrContainerDoctrineOdm\\": "tests/functional"
         }
     },
-    "minimum-stability": "stable",
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "infection/extension-installer": true,
+            "phpstan/extension-installer": true
+        },
+        "sort-packages": true
+    },
     "scripts": {
         "check": [
             "@check-deps",
@@ -48,13 +52,14 @@
             "@phpunit",
             "@infection"
         ],
-        "check-deps": "vendor/bin/composer-require-checker",
-        "cs-check": "vendor/bin/phpcs",
-        "cs-fix": "vendor/bin/phpcbf",
-        "infection": "vendor/bin/infection --threads=4",
-        "infection-xdebug": "@composer run --timeout=0 infection -- --initial-tests-php-options='-d zend_extension=xdebug.so'",
-        "phpstan": "vendor/bin/phpstan analyse",
-        "phpunit": "vendor/bin/phpunit",
-        "psalm": "vendor/bin/psalm"
+        "check-deps": "composer-require-checker",
+        "cs-check": "php-cs-fixer fix --dry-run",
+        "cs-fix": "php-cs-fixer fix",
+        "infection": "infection -jmax",
+        "infection-diff": "infection -jmax --git-diff-lines --min-msi=100 --min-covered-msi=100 --ignore-msi-with-no-mutations",
+        "infection-xdebug": "infection --initial-tests-php-options='-d zend_extension=xdebug.so'",
+        "phpstan": "phpstan analyze",
+        "phpunit": "phpunit",
+        "psalm": "psalm"
     }
 }

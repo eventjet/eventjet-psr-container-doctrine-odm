@@ -19,16 +19,49 @@ declare(strict_types=1);
 namespace Eventjet\PsrContainerDoctrineOdm\Service;
 
 use Doctrine\ODM\MongoDB\Configuration;
+use Doctrine\ODM\MongoDB\Mapping\ClassMetadataFactoryInterface;
+use Doctrine\ODM\MongoDB\PersistentCollection\PersistentCollectionFactory;
+use Doctrine\ODM\MongoDB\PersistentCollection\PersistentCollectionGenerator;
 use Doctrine\ODM\MongoDB\Repository\DocumentRepository as DefaultDocumentRepository;
+use Doctrine\ODM\MongoDB\Repository\RepositoryFactory;
 use Doctrine\ODM\MongoDB\Types\Type;
+use Doctrine\Persistence\Mapping\Driver\MappingDriver;
+use Doctrine\Persistence\ObjectRepository;
+use Psr\Cache\CacheItemPoolInterface;
 use Psr\Container\ContainerInterface;
+use Roave\PsrContainerDoctrine\Cache\NullCache;
 use Roave\PsrContainerDoctrine\CacheFactory;
 use Roave\PsrContainerDoctrine\DriverFactory;
+
+/**
+ * @phpstan-type ConfigurationOptions array{
+ *     proxy_dir: string,
+ *     proxy_namespace: string,
+ *     generate_proxies: Configuration::AUTOGENERATE_*,
+ *     generate_hydrators: Configuration::AUTOGENERATE_*,
+ *     hydrator_dir: string,
+ *     hydrator_namespace: string,
+ *     generate_persistent_collections: Configuration::AUTOGENERATE_*,
+ *     persistent_collection_dir: string,
+ *     persistent_collection_namespace: string,
+ *     persistent_collection_factory?: class-string<PersistentCollectionFactory>|null,
+ *     persistent_collection_generator?: class-string<PersistentCollectionGenerator>|null,
+ *     default_db?: string|null,
+ *     metadata_cache: class-string<CacheItemPoolInterface>|null,
+ *     filters: array<string, class-string>,
+ *     driver: class-string<MappingDriver>,
+ *     class_metadata_factory_name?: class-string<ClassMetadataFactoryInterface>|null,
+ *     repository_factory?: class-string<RepositoryFactory>|null,
+ *     default_document_repository_class_name: class-string<ObjectRepository<object>>,
+ *     types: array<string, class-string<Type>>,
+ * }
+ */
 
 class ConfigurationFactory extends AbstractOdmFactory
 {
     protected function createWithConfig(ContainerInterface $container, string $configKey): Configuration
     {
+        /** @var ConfigurationOptions $options */
         $options = $this->retrieveConfig($container, $configKey, 'configuration');
 
         $config = new Configuration();
@@ -54,7 +87,7 @@ class ConfigurationFactory extends AbstractOdmFactory
 
         if ($options['persistent_collection_generator'] !== null) {
             $config->setPersistentCollectionGenerator(
-                $container->get($options['persistent_collection_generator'])
+                $container->get($options['persistent_collection_generator']),
             );
         }
 
@@ -64,13 +97,13 @@ class ConfigurationFactory extends AbstractOdmFactory
         }
 
         // caching
-        $config->setMetadataCacheImpl(
+        $config->setMetadataCache(
             $this->retrieveDependency(
                 $container,
                 $options['metadata_cache'],
                 'cache',
-                CacheFactory::class
-            )
+                CacheFactory::class,
+            ),
         );
 
         // Register filters
@@ -84,8 +117,8 @@ class ConfigurationFactory extends AbstractOdmFactory
                 $container,
                 $options['driver'],
                 'driver',
-                DriverFactory::class
-            )
+                DriverFactory::class,
+            ),
         );
 
         // metadataFactory, if set
@@ -118,7 +151,7 @@ class ConfigurationFactory extends AbstractOdmFactory
     protected function getDefaultConfig(string $configKey): array
     {
         return [
-            'metadata_cache' => 'array',
+            'metadata_cache' => NullCache::class,
             'generate_proxies' => Configuration::AUTOGENERATE_EVAL,
             'proxy_dir' => 'data',
             'proxy_namespace' => 'DoctrineMongoODMModule\Proxy',

@@ -13,28 +13,27 @@ use LogicException;
  */
 final class DummyRepository implements ObjectRepository
 {
-
-    public function find($id)
+    public function find($id): object|null
     {
         throw new LogicException('not implemented');
     }
 
-    public function findAll()
+    public function findAll(): array
     {
         throw new LogicException('not implemented');
     }
 
-    public function findBy(array $criteria, ?array $orderBy = null, $limit = null, $offset = null)
+    public function findBy(array $criteria, array|null $orderBy = null, $limit = null, $offset = null): array
     {
         throw new LogicException('not implemented');
     }
 
-    public function findOneBy(array $criteria)
+    public function findOneBy(array $criteria): object|null
     {
         throw new LogicException('not implemented');
     }
 
-    public function getClassName()
+    public function getClassName(): string
     {
         throw new LogicException('not implemented');
     }

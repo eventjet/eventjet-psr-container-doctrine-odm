@@ -19,7 +19,7 @@ final class DummyPersistentCollectionFactory implements PersistentCollectionFact
     public function create(
         DocumentManager $dm,
         array $mapping,
-        ?BaseCollection $coll = null
+        BaseCollection|null $coll = null,
     ): PersistentCollectionInterface {
         throw new LogicException('not implemented');
     }

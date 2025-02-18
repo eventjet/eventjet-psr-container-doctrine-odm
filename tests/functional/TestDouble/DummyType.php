@@ -8,5 +8,4 @@ use Doctrine\ODM\MongoDB\Types\Type;
 
 final class DummyType extends Type
 {
-
 }

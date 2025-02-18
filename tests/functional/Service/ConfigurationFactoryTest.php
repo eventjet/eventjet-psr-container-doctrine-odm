@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Eventjet\Test\Functional\PsrContainerDoctrineOdm\Service;
 
-use Doctrine\Common\Cache\FilesystemCache;
 use Doctrine\ODM\MongoDB\Configuration;
 use Doctrine\ODM\MongoDB\Mapping\Driver\XmlDriver;
 use Doctrine\ODM\MongoDB\Types\Type;
 use Eventjet\Test\Functional\PsrContainerDoctrineOdm\CreateContainerTrait;
+use Eventjet\Test\Functional\PsrContainerDoctrineOdm\TestDouble\DummyMetadataFactory;
 use Eventjet\Test\Functional\PsrContainerDoctrineOdm\TestDouble\DummyPersistentCollectionFactory;
 use Eventjet\Test\Functional\PsrContainerDoctrineOdm\TestDouble\DummyPersistentCollectionGenerator;
 use Eventjet\Test\Functional\PsrContainerDoctrineOdm\TestDouble\DummyRepository;
@@ -59,7 +59,7 @@ class ConfigurationFactoryTest extends TestCase
         self::assertSame($options['generate_hydrators'], $config->getAutoGenerateHydratorClasses());
         self::assertSame(
             $options['generate_persistent_collections'],
-            $config->getAutoGeneratePersistentCollectionClasses()
+            $config->getAutoGeneratePersistentCollectionClasses(),
         );
         self::assertSame($options['persistent_collection_dir'], $config->getPersistentCollectionDir());
         self::assertSame($options['persistent_collection_namespace'], $config->getPersistentCollectionNamespace());
@@ -68,7 +68,7 @@ class ConfigurationFactoryTest extends TestCase
         self::assertSame($options['class_metadata_factory_name'], $config->getClassMetadataFactoryName());
         self::assertSame(
             $options['default_document_repository_class_name'],
-            $config->getDefaultDocumentRepositoryClassName()
+            $config->getDefaultDocumentRepositoryClassName(),
         );
     }
 
@@ -82,10 +82,10 @@ class ConfigurationFactoryTest extends TestCase
 
     public function testSetMetadataFactory(): void
     {
-        $this->addConfig(['class_metadata_factory_name' => 'foo']);
+        $this->addConfig(['class_metadata_factory_name' => DummyMetadataFactory::class]);
         $config = $this->container()->get(Configuration::class);
 
-        self::assertSame('foo', $config->getClassMetadataFactoryName());
+        self::assertSame(DummyMetadataFactory::class, $config->getClassMetadataFactoryName());
     }
 
     public function testSetPersistentCollectionFactory(): void

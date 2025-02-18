@@ -24,6 +24,7 @@ use Psr\Container\ContainerInterface;
 use function is_int;
 use function str_replace;
 use function strpos;
+use function substr;
 
 use const PHP_INT_MAX;
 
@@ -40,7 +41,7 @@ class ConnectionFactory extends AbstractOdmFactory
             $container,
             $options['configuration'],
             'configuration',
-            ConfigurationFactory::class
+            ConfigurationFactory::class,
         );
 
         $dbName = $config->getDefaultDB();
@@ -93,7 +94,7 @@ class ConnectionFactory extends AbstractOdmFactory
         ];
     }
 
-    private function extractDatabaseFromConnectionString(string $connectionString): ?string
+    private function extractDatabaseFromConnectionString(string $connectionString): string|null
     {
         $dbName = null;
         $connectionString = str_replace('mongodb://', '', $connectionString);
@@ -102,10 +103,10 @@ class ConnectionFactory extends AbstractOdmFactory
             return null;
         }
         $dbEnd = strpos($connectionString, '?');
-        $dbName = \Safe\substr(
+        $dbName = substr(
             $connectionString,
             $dbStart + 1,
-            $dbEnd !== false ? ($dbEnd - $dbStart - 1) : PHP_INT_MAX
+            $dbEnd !== false ? ($dbEnd - $dbStart - 1) : PHP_INT_MAX,
         );
         return $dbName;
     }

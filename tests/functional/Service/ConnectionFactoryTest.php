@@ -9,6 +9,8 @@ use Eventjet\Test\Functional\PsrContainerDoctrineOdm\CreateContainerTrait;
 use MongoDB\Client;
 use PHPUnit\Framework\TestCase;
 
+use function sprintf;
+
 class ConnectionFactoryTest extends TestCase
 {
     use CreateContainerTrait;
@@ -36,7 +38,7 @@ class ConnectionFactoryTest extends TestCase
 
         self::assertInstanceOf(Client::class, $client);
         self::assertSame(
-            \Safe\sprintf(
+            sprintf(
                 'mongodb://%s:%s@%s:%s/%s',
                 $config['user'],
                 $config['password'],
@@ -44,25 +46,25 @@ class ConnectionFactoryTest extends TestCase
                 $config['port'],
                 $config['dbname'],
             ),
-            (string)$client
+            (string)$client,
         );
     }
 
     public function testExtractDbNameFromConnectionString(): void
     {
         $dbName = 'mydb';
-        $this->addConfig(['connection_string' => \Safe\sprintf('mongodb://localhost:27017/%s', $dbName)]);
+        $this->addConfig(['connection_string' => sprintf('mongodb://localhost:27017/%s', $dbName)]);
 
         $client = $this->container()->get(Client::class);
 
         self::assertInstanceOf(Client::class, $client);
-        self::assertSame(\Safe\sprintf('mongodb://localhost:27017/%s', $dbName), (string)$client);
+        self::assertSame(sprintf('mongodb://localhost:27017/%s', $dbName), (string)$client);
     }
 
     public function testConnectionStringWithDbSetsDefaultDbInConfiguration(): void
     {
         $dbName = 'mydb';
-        $this->addConfig(['connection_string' => \Safe\sprintf('mongodb://localhost:27017/%s', $dbName)]);
+        $this->addConfig(['connection_string' => sprintf('mongodb://localhost:27017/%s', $dbName)]);
         $this->container()->setAlias('doctrine.configuration.odm_default', Configuration::class);
         $this->container()->get(Client::class);
 
@@ -74,7 +76,7 @@ class ConnectionFactoryTest extends TestCase
     public function testConnectionStringWithDbAndUriOptionsSetsDefaultDbInConfiguration(): void
     {
         $dbName = 'mydb';
-        $this->addConfig(['connection_string' => \Safe\sprintf('mongodb://localhost:27017/%s?appname=foo', $dbName)]);
+        $this->addConfig(['connection_string' => sprintf('mongodb://localhost:27017/%s?appname=foo', $dbName)]);
         $this->container()->setAlias('doctrine.configuration.odm_default', Configuration::class);
         $this->container()->get(Client::class);
 
@@ -95,7 +97,7 @@ class ConnectionFactoryTest extends TestCase
         $configuration = $this->container()->get(Configuration::class);
         self::assertSame($defaultDb, $configuration->getDefaultDB());
         self::assertStringContainsString($defaultDb, (string)$client);
-        self::assertSame(\Safe\sprintf('mongodb://localhost:27017/%s', $defaultDb), (string)$client);
+        self::assertSame(sprintf('mongodb://localhost:27017/%s', $defaultDb), (string)$client);
     }
 
     public function testCredentialsAreNotUsedIfUsernameIsMissing(): void
