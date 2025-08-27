@@ -5,15 +5,16 @@
     "type": "library",
     "require": {
         "php": "^8.3",
+        "ext-mongodb": "^2.0",
         "doctrine/mongodb-odm": "^2.0",
-        "mongodb/mongodb": "^1.6",
+        "mongodb/mongodb": "^2.0",
         "psr/container": "^1.1 || ^2.0",
-        "roave/psr-container-doctrine": "^5.0"
+        "roave/psr-container-doctrine": "^4.0"
     },
     "require-dev": {
         "bnf/phpstan-psr-container": "^1.1",
         "eventjet/coding-standard": "^3.1",
-        "infection/infection": "^0.29.0",
+        "infection/infection": "^0.31.0",
         "laminas/laminas-servicemanager": "^3.0",
         "maglnet/composer-require-checker": "^4.0",
         "phpstan/extension-installer": "^1.0",

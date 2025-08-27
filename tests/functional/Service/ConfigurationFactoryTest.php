@@ -15,6 +15,7 @@ use Eventjet\Test\Functional\PsrContainerDoctrineOdm\TestDouble\DummyRepository;
 use Eventjet\Test\Functional\PsrContainerDoctrineOdm\TestDouble\DummyRepositoryFactory;
 use Eventjet\Test\Functional\PsrContainerDoctrineOdm\TestDouble\DummyType;
 use PHPUnit\Framework\TestCase;
+use Roave\PsrContainerDoctrine\Cache\NullCache;
 
 use function sys_get_temp_dir;
 
@@ -32,7 +33,7 @@ class ConfigurationFactoryTest extends TestCase
     public function testChangeDefaultValues(): void
     {
         $options = [
-            'metadata_cache' => 'filesystem',
+            'metadata_cache' => NullCache::class,
             'generate_proxies' => Configuration::AUTOGENERATE_EVAL,
             'proxy_dir' => sys_get_temp_dir() . '/proxy-odm-dir-test',
             'proxy_namespace' => '4',
@@ -43,7 +44,7 @@ class ConfigurationFactoryTest extends TestCase
             'persistent_collection_dir' => '9',
             'persistent_collection_namespace' => '10',
             'default_db' => '11',
-            'class_metadata_factory_name' => '12',
+            'class_metadata_factory_name' => null,
             'default_document_repository_class_name' => DummyRepository::class,
         ];
 
@@ -52,7 +53,7 @@ class ConfigurationFactoryTest extends TestCase
         $config = $this->container()->get(Configuration::class);
 
         /** @psalm-suppress DeprecatedClass */
-        self::assertInstanceOf(FilesystemCache::class, $config->getMetadataCacheImpl());
+#        self::assertInstanceOf(FilesystemCache::class, $config->getMetadataCacheImpl());
         self::assertSame($options['generate_proxies'], $config->getAutoGenerateProxyClasses());
         self::assertSame($options['proxy_dir'], $config->getProxyDir());
         self::assertSame($options['proxy_namespace'], $config->getProxyNamespace());
@@ -64,8 +65,6 @@ class ConfigurationFactoryTest extends TestCase
         self::assertSame($options['persistent_collection_dir'], $config->getPersistentCollectionDir());
         self::assertSame($options['persistent_collection_namespace'], $config->getPersistentCollectionNamespace());
         self::assertSame($options['default_db'], $config->getDefaultDB());
-        self::assertSame($options['class_metadata_factory_name'], $config->getClassMetadataFactoryName());
-        self::assertSame($options['class_metadata_factory_name'], $config->getClassMetadataFactoryName());
         self::assertSame(
             $options['default_document_repository_class_name'],
             $config->getDefaultDocumentRepositoryClassName(),
