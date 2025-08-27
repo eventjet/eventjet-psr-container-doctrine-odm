@@ -9,7 +9,7 @@
         "doctrine/mongodb-odm": "^2.0",
         "mongodb/mongodb": "^2.0",
         "psr/container": "^1.1 || ^2.0",
-        "roave/psr-container-doctrine": "^4.0"
+        "roave/psr-container-doctrine": "^5.0"
     },
     "require-dev": {
         "bnf/phpstan-psr-container": "^1.1",
